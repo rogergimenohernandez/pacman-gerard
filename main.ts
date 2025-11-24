@@ -5,56 +5,40 @@ function CreaPacMan () {
     PacManSprite = sprites.create(assets.image`PacMan`, SpriteKind.Player)
     animation.runImageAnimation(
     PacManSprite,
-    assets.animation`myAnim`,
+    assets.animation`PacManAnimR`,
     200,
     true
     )
     PacManSprite.z = 100
     PacManSprite.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
 }
-function CreaEnemig() {
-    // for (let i = 0; i <= 3; i++) {
-    // ghosts.push(crearFantasma(i))
-    // }
-    GhostSprite = sprites.create(assets.image`Fantasma`, SpriteKind.Enemy)
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
-        GhostSprite,
-        assets.animation`FantasmaAnim`,
-        200,
-        true
+    PacManSprite,
+    assets.animation`PacManAnimD`,
+    200,
+    true
     )
-    GhostSprite.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
-    GhostSprite.z = 100
-}
-function CreaMenjar() {
-    for (let índiceColumna = 0; índiceColumna <= 7; índiceColumna++) {
-        for (let índiceFila = 0; índiceFila <= 4; índiceFila++) {
-            FoodSprite = sprites.create(assets.image`Menjar`, SpriteKind.Food)
-            FoodSprite.setPosition((índiceColumna + 1) * 16 + 8, (índiceFila + 1) * 16 + 8)
-        }
-    }
-}
-function CreaSuperMenjar() {
-    SuperMenjar = sprites.create(assets.image`SuperMenjar`, SpriteKind.SuperFood)
-    SuperMenjar.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
-}
-function mourePacMan(PacMan: Sprite) {
-    if (controller.left.isPressed() && !(controller.right.isPressed()) && !(controller.up.isPressed()) && !(controller.down.isPressed())) {
-        movX = -1
-    }
-    if (!(controller.left.isPressed()) && controller.right.isPressed() && !(controller.up.isPressed()) && !(controller.down.isPressed())) {
-        movX = 1
-    }
-    if (!(controller.left.isPressed()) && !(controller.right.isPressed()) && controller.up.isPressed() && !(controller.down.isPressed())) {
-        movY = -1
-    }
-    if (!(controller.left.isPressed()) && !(controller.right.isPressed()) && !(controller.up.isPressed()) && controller.down.isPressed()) {
-        movY = 1
-    }
-    PacMan.x += movX * 16
-    PacMan.x += movY * 16
-}
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    PacManSprite,
+    assets.animation`PacManAnimR`,
+    200,
+    true
+    )
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    PacManSprite,
+    assets.animation`PacManAnimL`,
+    200,
+    true
+    )
+})
 function moureFantasma (Fantasma: Sprite, PacMan: Sprite) {
+    movX2 = 0
+    movY2 = 0
     diferenciaX = PacMan.x - Fantasma.x
     diferenciaY = PacMan.y - Fantasma.y
     if (Math.abs(diferenciaX) > Math.abs(diferenciaY)) {
@@ -71,7 +55,7 @@ function moureFantasma (Fantasma: Sprite, PacMan: Sprite) {
         }
     }
     Fantasma.x += movX2 * 16
-    Fantasma.x += movY2 * 16
+    Fantasma.y += movY2 * 16
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (PaMan, Fantasma) {
     if (modeSuperSayanBlue) {
@@ -84,6 +68,44 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (PaMan, Fantasma
         game.over(false)
     }
 })
+function mourePacMan (PacMan: Sprite) {
+    movX = 0
+    movY = 0
+    if (controller.left.isPressed() && !(controller.right.isPressed()) && !(controller.up.isPressed()) && !(controller.down.isPressed())) {
+        movX = -1
+    }
+    if (!(controller.left.isPressed()) && controller.right.isPressed() && !(controller.up.isPressed()) && !(controller.down.isPressed())) {
+        movX = 1
+    }
+    if (!(controller.left.isPressed()) && !(controller.right.isPressed()) && controller.up.isPressed() && !(controller.down.isPressed())) {
+        movY = -1
+    }
+    if (!(controller.left.isPressed()) && !(controller.right.isPressed()) && !(controller.up.isPressed()) && controller.down.isPressed()) {
+        movY = 1
+    }
+    PacMan.x += movX * 16
+    PacMan.y += movY * 16
+}
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    PacManSprite,
+    assets.animation`PacManAnimU`,
+    200,
+    true
+    )
+})
+function CreaMenjar () {
+    for (let índiceColumna = 0; índiceColumna <= 7; índiceColumna++) {
+        for (let índiceFila = 0; índiceFila <= 4; índiceFila++) {
+            FoodSprite = sprites.create(assets.image`Menjar`, SpriteKind.Food)
+            FoodSprite.setPosition((índiceColumna + 1) * 16 + 8, (índiceFila + 1) * 16 + 8)
+        }
+    }
+}
+function CreaSuperMenjar () {
+    SuperMenjar = sprites.create(assets.image`SuperMenjar`, SpriteKind.SuperFood)
+    SuperMenjar.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (PaMan, Menjar) {
     Menjar.destroy()
     music.baDing.play()
@@ -92,49 +114,32 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (PaMan, Menjar) {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.SuperFood, function (PaMan, SuperMenjar) {
     SuperMenjar.destroy()
     animation.runImageAnimation(
-        GhostSprite,
-        assets.animation`FantasmaAnimPor`,
-        200,
-        true
+    GhostSprite,
+    assets.animation`FantasmaAnimPor`,
+    200,
+    true
     )
+    tempsPoder = 5000
     modeSuperSayanBlue = true
     tempsActualitzacioFantasma = 250
     music.baDing.play()
     info.changeScoreBy(50)
 })
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+function CreaEnemig () {
+    // for (let i = 0; i <= 3; i++) {
+    // ghosts.push(crearFantasma(i))
+    // }
+    GhostSprite = sprites.create(assets.image`Fantasma`, SpriteKind.Enemy)
     animation.runImageAnimation(
-    PacManSprite,
-    assets.animation`myAnim`,
+    GhostSprite,
+    assets.animation`FantasmaAnim`,
     200,
     true
     )
-})
-controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-        PacManSprite,
-        assets.animation`myAnim`,
-        200,
-        true
-    )
-})
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-        PacManSprite,
-        assets.animation`myAnim`,
-        200,
-        true
-    )
-})
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-        PacManSprite,
-        assets.animation`myAnim`,
-        200,
-        true
-    )
-})
-
+    PacManSprite.setBounceOnWall(true)
+    GhostSprite.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
+    GhostSprite.z = 100
+}
 let tempsPoder = 0
 let GhostSprite: Sprite = null
 let SuperMenjar: Sprite = null
@@ -142,14 +147,12 @@ let FoodSprite: Sprite = null
 let movY = 0
 let movX = 0
 let modeSuperSayanBlue = false
-let movY2 = 0
-let movX2 = 0
 let diferenciaY = 0
 let diferenciaX = 0
+let movY2 = 0
+let movX2 = 0
 let PacManSprite: Sprite = null
 let tempsActualitzacioFantasma = 0
-let pucMoure = true
-let pucMoureFantasma = true
 let tempsActualitzacio = 200
 tempsActualitzacioFantasma = 200
 tiles.setCurrentTilemap(tilemap`nivel1`)
@@ -159,7 +162,7 @@ CreaMenjar()
 CreaSuperMenjar()
 game.onUpdate(function () {
     if (sprites.allOfKind(SpriteKind.Food).length == 0 && sprites.allOfKind(SpriteKind.SuperFood).length == 0) {
-        game.over(true)
+        game.over(true, effects.confetti)
     }
 })
 game.onUpdateInterval(tempsActualitzacio, function () {
