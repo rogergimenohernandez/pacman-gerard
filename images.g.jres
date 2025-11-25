@@ -19,6 +19,81 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "SuperMenjar"
     },
+    "image5": {
+        "data": "hwQIAAgAAAAAAAAAgIiICICIiAiAiIgIgIiICICIiAiAiIgIAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Paret"
+    },
+    "image6": {
+        "data": "hwQIAAgAAAAAAAAAAAAAAAAAAAAAUAUAAFAFAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Moneda"
+    },
+    "image7": {
+        "data": "hwQIAAgAAAAAAAAAAAAAAACZmQAAmZkAAJmZAACZmQAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "superMoneda"
+    },
+    "image8": {
+        "data": "hwQIAAgAAAAAICICICIiAiIlISIiIhICIiIhIiIlEgIgIiIiACAiAg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "FantasmaPetit1"
+    },
+    "image9": {
+        "data": "hwQIAAgAAAAAICICICIiIiIlEgIiIiEiIiISAiIlISIgIiICACAiAg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "FantasmaPetit2"
+    },
+    "image10": {
+        "data": "hwQIAAgAAAAAVVUAUFVVBVVVVVVVVVVVVVVQVVUFUFVQBQBVAAUABQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitR1"
+    },
+    "image12": {
+        "data": "hwQIAAgAAAAABQAFUAUAVVUFUFVVVVBVVVVVVVVVVVVQVVUFAFVVAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitL1"
+    },
+    "image13": {
+        "data": "hwQIAAgAAAAAVVUFUFVVVVVVVQBVVQAAVVUFAFVVVVVQVVUFAFVVAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitD1"
+    },
+    "image14": {
+        "data": "hwQIAAgAAAAAVVUAUFVVBVVVVVUAUFVVAABVVQBVVVVVVVUFUFVVAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitU1"
+    },
+    "image15": {
+        "data": "hwQIAAgAAAAAVVUAUFVVBVVVVVVVVVVVVVVfVVVVX1VQVV9VAFVfAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitR2"
+    },
+    "image16": {
+        "data": "hwQIAAgAAAAAVV8AUFVfVVVVX1VVVV9VVVVVVVVVVVVQVVUFAFVVAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitL2"
+    },
+    "image17": {
+        "data": "hwQIAAgAAAAAVVUFUFVVBVVVVVVVVf//VVVVVVVVVVVQVVUFAFVVAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitD2"
+    },
+    "image18": {
+        "data": "hwQIAAgAAAAAVVUAUFVVBVVVVVVVVVVV//9VVVVVVVVQVVUFUFVVAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "PacManPetitU2"
+    },
+    "image11": {
+        "data": "hwQIAAgAAAAAEBEBEBERAREVHxEREfEBEREfEREV8QEQERERABARAQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "FantasmaPetitPor1"
+    },
+    "image19": {
+        "data": "hwQIAAgAAAAAEBEBEBEREREV8QERER8RERHxAREVHxEQEREBABARAQ==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "FantasmaPetitPor2"
+    },
     "~pGl1gw=dq[6A-})D$7a": {
         "namespace": "myImages",
         "id": "~pGl1gw=dq[6A-})D$7a",
