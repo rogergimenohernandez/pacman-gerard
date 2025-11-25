@@ -173,10 +173,11 @@ function CreaMapa () {
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.SuperFood, function (PacMan, SuperMenjar) {
+
     SuperMenjar.destroy()
     FantasmaActual = FantasmaPor
     GhostSprite.setImage(FantasmaActual[contadorMovFantasma])
-    tempsPoder = 5000
+    tempsPoder = 50
     modeSuperSayanBlue = true
     tempsActualitzacioFantasma = 500
     music.baDing.play()
