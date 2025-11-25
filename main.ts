@@ -14,17 +14,14 @@ function CreaPacMan () {
     PacManSprite.setPosition(iniPacManPos[0] * pas + pas / 2, iniPacManPos[1] * pas + pas / 2)
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    // animation.runImageAnimation(PacManSprite, assets.animation`PacManAnimD`, 200, true)
     pacManActual = pacDown
     PacManSprite.setImage(pacManActual[contadorMov])
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    // animation.runImageAnimation(PacManSprite, assets.animation`PacManAnimR`, 200, true)
     pacManActual = pacRight
     PacManSprite.setImage(pacManActual[contadorMov])
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    // animation.runImageAnimation(PacManSprite, assets.animation`PacManAnimL`, 200, true)
     pacManActual = pacLeft
     PacManSprite.setImage(pacManActual[contadorMov])
 })
@@ -32,28 +29,94 @@ function moureFantasma (Fantasma: Sprite, PacMan: Sprite) {
     Fantasma.setImage(FantasmaActual[contadorMovFantasma])
     movX2 = 0
     movY2 = 0
-    diferenciaX = PacMan.x - Fantasma.x
-    diferenciaY = PacMan.y - Fantasma.y
+    teletransportFantasma = false
+    let posTeleEsquerraX = pas / 2
+    let posTeleEsquerraY = 7 * pas + pas / 2
+    let posTeleDretaX = 19 * pas + pas / 2
+    let posTeleDretaY = 7 * pas + pas / 2
+    let CurrentX = Fantasma.x
+    let CurrentY = Fantasma.y
+    diferenciaX = PacMan.x - CurrentX
+    diferenciaY = PacMan.y - CurrentY
     if (modeSuperSayanBlue) {
         if (Math.abs(diferenciaX) < Math.abs(diferenciaY)) {
             if (diferenciaX > 0) {
+                if ((Fantasma.x == posTeleEsquerraX) && (Fantasma.y == posTeleEsquerraY)) {
+                    teletransportFantasma = true
+                }
                 movX2 = -1
             } else {
+                if ((Fantasma.x == posTeleDretaX) && (Fantasma.y == posTeleDretaY)) {
+                    teletransportFantasma = true
+                }
                 movX2 = 1
+            }
+
+            newLocFantasmaX = Fantasma.x + movX2 * pas
+            newLocFantasmaY = Fantasma.y + movY2 * pas
+
+            indexX = (newLocFantasmaX - 4) / pas
+            indexY = (newLocFantasmaY - 4) / pas
+            if (mapa[indexY][indexX] == "1") {
+                movX2 = 0
+                if (diferenciaY > 0) {
+                    movY2 = 1
+                } else {
+                    movY2 = -1
+                }
             }
         } else {
             if (diferenciaY > 0) {
                 movY2 = -1
             } else {
                 movY2 = 1
+            }
+            newLocFantasmaX = Fantasma.x + movX2 * pas
+            newLocFantasmaY = Fantasma.y + movY2 * pas
+
+            indexX = (newLocFantasmaX - 4) / pas
+            indexY = (newLocFantasmaY - 4) / pas
+            if (mapa[indexY][indexX] == "1") {
+                movY2 = 0
+                if (diferenciaX > 0) {
+                    if ((Fantasma.x == posTeleDretaX) && (Fantasma.y == posTeleDretaY)) {
+                        teletransportFantasma = true
+                    }
+                    movX2 = 1
+                } else {
+                    if ((Fantasma.x == posTeleEsquerraX) && (Fantasma.y == posTeleEsquerraY)) {
+                        teletransportFantasma = true
+                    }
+                    movX2 = -1
+                }
             }
         }
     } else {
         if (Math.abs(diferenciaX) > Math.abs(diferenciaY)) {
             if (diferenciaX > 0) {
+                if ((Fantasma.x == posTeleDretaX) && (Fantasma.y == posTeleDretaY)) {
+                    teletransportFantasma = true
+                }
                 movX2 = 1
             } else {
+                if ((Fantasma.x == posTeleEsquerraX) && (Fantasma.y == posTeleEsquerraY)) {
+                    teletransportFantasma = true
+                }
                 movX2 = -1
+            }
+
+            newLocFantasmaX = Fantasma.x + movX2 * pas
+            newLocFantasmaY = Fantasma.y + movY2 * pas
+
+            indexX = (newLocFantasmaX - 4) / pas
+            indexY = (newLocFantasmaY - 4) / pas
+            if (mapa[indexY][indexX] == "1") {
+                movX2 = 0
+                if (diferenciaY > 0) {
+                    movY2 = 1
+                } else {
+                    movY2 = -1
+                }
             }
         } else {
             if (diferenciaY > 0) {
@@ -61,10 +124,41 @@ function moureFantasma (Fantasma: Sprite, PacMan: Sprite) {
             } else {
                 movY2 = -1
             }
-        }
+            newLocFantasmaX = Fantasma.x + movX2 * pas
+            newLocFantasmaY = Fantasma.y + movY2 * pas
+
+            indexX = (newLocFantasmaX - 4) / pas
+            indexY = (newLocFantasmaY - 4) / pas
+            if (mapa[indexY][indexX] == "1") {
+                movY2 = 0
+                if (diferenciaX > 0) {
+                    if ((Fantasma.x == posTeleDretaX) && (Fantasma.y == posTeleDretaY)) {
+                        teletransportFantasma = true
+                    }
+                    movX2 = 1
+                } else {
+                    if ((Fantasma.x == posTeleEsquerraX) && (Fantasma.y == posTeleEsquerraY)) {
+                        teletransportFantasma = true
+                    }
+                    movX2 = -1
+                }
+            }
+        } 
     }
-    newLocFantasmaX = Fantasma.x + movX2 * pas
-    newLocFantasmaY = Fantasma.y + movY2 * pas
+
+    if (teletransportFantasma) {
+        if (movX == 1) {
+            newLocFantasmaX = posTeleEsquerraX
+            newLocFantasmaY = Fantasma.y
+        } else {
+            newLocFantasmaX = posTeleDretaX
+            newLocFantasmaY = Fantasma.y
+        }
+    } else {
+        newLocFantasmaX = Fantasma.x + movX2 * pas
+        newLocFantasmaY = Fantasma.y + movY2 * pas
+    }
+    
     indexX = (newLocFantasmaX - 4) / pas
     indexY = (newLocFantasmaY - 4) / pas
     if (mapa[indexY][indexX] != "1") {
@@ -92,10 +186,24 @@ function mourePacMan (PacMan: Sprite) {
     PacMan.setImage(pacManActual[contadorMov])
     movX = 0
     movY = 0
+    teletransport = false
+    let posTeleEsquerraX = pas / 2
+    let posTeleEsquerraY = 7 * pas + pas / 2
+    let posTeleDretaX = 19 * pas + pas / 2
+    let posTeleDretaY = 7 * pas + pas / 2
+    let CurrentX = PacMan.x
+    let CurrentY = PacMan.y
+    debugger
     if (controller.left.isPressed() && !(controller.right.isPressed()) && !(controller.up.isPressed()) && !(controller.down.isPressed())) {
+        if ((PacMan.x == posTeleEsquerraX) && (PacMan.y == posTeleEsquerraY)) {
+            teletransport = true
+        }
         movX = -1
     }
     if (!(controller.left.isPressed()) && controller.right.isPressed() && !(controller.up.isPressed()) && !(controller.down.isPressed())) {
+        if ((PacMan.x == posTeleDretaX) && (PacMan.y == posTeleDretaY)) {
+            teletransport = true
+        }
         movX = 1
     }
     if (!(controller.left.isPressed()) && !(controller.right.isPressed()) && controller.up.isPressed() && !(controller.down.isPressed())) {
@@ -104,8 +212,19 @@ function mourePacMan (PacMan: Sprite) {
     if (!(controller.left.isPressed()) && !(controller.right.isPressed()) && !(controller.up.isPressed()) && controller.down.isPressed()) {
         movY = 1
     }
-    newLocPacManX = PacMan.x + movX * pas
-    newLocPacManY = PacMan.y + movY * pas
+    if (teletransport){
+        if (movX == 1) {
+            newLocPacManX = posTeleEsquerraX
+            newLocPacManY = PacMan.y
+        }else{
+            newLocPacManX = posTeleDretaX
+            newLocPacManY = PacMan.y
+        }
+    }else {
+        newLocPacManX = PacMan.x + movX * pas
+        newLocPacManY = PacMan.y + movY * pas
+    }
+    
     indexX2 = (newLocPacManX - 4) / pas
     indexY2 = (newLocPacManY - 4) / pas
     if (mapa[indexY2][indexX2] != "1") {
@@ -114,20 +233,19 @@ function mourePacMan (PacMan: Sprite) {
     }
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    // animation.runImageAnimation(PacManSprite, assets.animation`PacManAnimU`, 200, true)
     pacManActual = pacUp
     PacManSprite.setImage(pacManActual[contadorMov])
 })
 function CreaMenjar (x: number, y: number) {
     FoodSprite = null
-FoodSprite = sprites.create(assets.image`Moneda`, SpriteKind.Food)
+    FoodSprite = sprites.create(assets.image`Moneda`, SpriteKind.Food)
     FoodSprite.setPosition(x, y)
     FoodSprite.z = 10
     return FoodSprite
 }
 function CreaSuperMenjar (x: number, y: number) {
     SuperMenjar = null
-SuperMenjar = sprites.create(assets.image`superMoneda`, SpriteKind.Food)
+    SuperMenjar = sprites.create(assets.image`superMoneda`, SpriteKind.SuperFood)
     SuperMenjar.setPosition(x, y)
     SuperMenjar.z = 10
     return SuperMenjar
@@ -173,7 +291,6 @@ function CreaMapa () {
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.SuperFood, function (PacMan, SuperMenjar) {
-
     SuperMenjar.destroy()
     FantasmaActual = FantasmaPor
     GhostSprite.setImage(FantasmaActual[contadorMovFantasma])
@@ -201,7 +318,9 @@ function CreaEnemig () {
     GhostSprite.z = 100
 }
 let Fantasma: Image[] = []
+let teletransport = false
 let tempsPoder = 0
+let teletransportFantasma = false
 let GhostSprite: Sprite = null
 let FantasmaPor: Image[] = []
 let iniFantasmaPos: number[] = []
@@ -262,7 +381,9 @@ game.onUpdateInterval(tempsActualitzacio, function () {
 })
 game.onUpdateInterval(tempsActualitzacio, function () {
     contadorMov = (contadorMov + 1) % 2
-    mourePacMan(PacManSprite)
+    if (controller.anyButton.isPressed()) {
+        mourePacMan(PacManSprite)
+    }
 })
 game.onUpdateInterval(tempsActualitzacioFantasma, function () {
     contadorMovFantasma = (contadorMovFantasma + 1) % 2
