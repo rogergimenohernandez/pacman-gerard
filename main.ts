@@ -10,7 +10,7 @@ function CreaPacMan () {
     true
     )
     PacManSprite.z = 100
-    PacManSprite.setPosition(randint(1, 8) * 16 + 8, randint(1, 5) * 16 + 8)
+    PacManSprite.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
 }
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -70,16 +70,24 @@ function moureFantasma (Fantasma: Sprite, PacMan: Sprite) {
             }
         }
     }
-    novaPosicioFantasmaX = Fantasma.x + movX2 * 16
-    novaPosicioFantasmaY = Fantasma.y + movY2 * 16
-    if (!(tiles.tileAtLocationIsWall(tiles.getTileLocation(novaPosicioFantasmaX / 16, novaPosicioFantasmaY / 16)))) {
-        Fantasma.x = novaPosicioFantasmaX
-        Fantasma.y = novaPosicioFantasmaY
-    } else {
-        Fantasma.x = Fantasma.x
-        Fantasma.y = Fantasma.y
+    newLocFantasmaX = Fantasma.x + movX2 * 16
+    newLocFantasmaY = Fantasma.y + movY2 * 16
+    if (!(tiles.tileAtLocationIsWall(tiles.getTileLocation(newLocFantasmaX / 16, newLocFantasmaY / 16)))) {
+        Fantasma.x = newLocFantasmaX
+        Fantasma.y = newLocFantasmaY
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (PaMan, Fantasma) {
+    if (modeSuperSayanBlue) {
+        Fantasma.destroy()
+        info.changeScoreBy(100)
+        music.smallCrash.play()
+    } else {
+        PaMan.destroy()
+        music.siren.play()
+        game.over(false)
+    }
+})
 function mourePacMan (PacMan: Sprite) {
     movX = 0
     movY = 0
@@ -95,14 +103,11 @@ function mourePacMan (PacMan: Sprite) {
     if (!(controller.left.isPressed()) && !(controller.right.isPressed()) && !(controller.up.isPressed()) && controller.down.isPressed()) {
         movY = 1
     }
-    novaPosicioPacManX = PacMan.x + movX * 16
-    novaPosicioPacManY = PacMan.y + movY * 16
-    if (!(tiles.tileAtLocationIsWall(tiles.getTileLocation(novaPosicioPacManX / 16, novaPosicioPacManY / 16)))) {
-        PacMan.x = novaPosicioPacManX
-        PacMan.y = novaPosicioPacManY
-    } else {
-        PacMan.x = PacMan.x
-        PacMan.y = PacMan.y
+    newLocPacManX = PacMan.x + movX * 16
+    newLocPacManY = PacMan.y + movY * 16
+    if (!(tiles.tileAtLocationIsWall(tiles.getTileLocation(newLocPacManX / 16, newLocPacManY / 16)))) {
+        PacMan.x = newLocPacManX
+        PacMan.y = newLocPacManY
     }
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -123,37 +128,26 @@ function CreaMenjar () {
 }
 function CreaSuperMenjar () {
     SuperMenjar = sprites.create(assets.image`SuperMenjar`, SpriteKind.SuperFood)
-    SuperMenjar.setPosition(randint(1, 8) * 16 + 8, randint(1, 5) * 16 + 8)
+    SuperMenjar.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (PacMan, Menjar) {
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (PaMan, Menjar) {
     Menjar.destroy()
     music.baDing.play()
     info.changeScoreBy(10)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.SuperFood, function (PacMan, SuperMenjar) {
-    SuperMenjar.destroy(effects.spray, 500)
+sprites.onOverlap(SpriteKind.Player, SpriteKind.SuperFood, function (PaMan, SuperMenjar) {
+    SuperMenjar.destroy()
     animation.runImageAnimation(
     GhostSprite,
     assets.animation`FantasmaAnimPor`,
     200,
     true
     )
-    tempsPoder = 50
+    tempsPoder = 5000
     modeSuperSayanBlue = true
     tempsActualitzacioFantasma = 500
     music.baDing.play()
     info.changeScoreBy(50)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (PacMan, Fantasma) {
-    if (modeSuperSayanBlue) {
-        Fantasma.destroy()
-        info.changeScoreBy(100)
-        music.smallCrash.play()
-    } else {
-        PacMan.destroy()
-        music.siren.play()
-        game.over(false)
-    }
 })
 function CreaEnemig () {
     // for (let i = 0; i <= 3; i++) {
@@ -166,30 +160,29 @@ function CreaEnemig () {
     200,
     true
     )
+    PacManSprite.setBounceOnWall(true)
+    GhostSprite.setPosition(randint(2, 8) * 16 + 8, randint(2, 5) * 16 + 8)
     GhostSprite.z = 100
-    GhostSprite.setPosition(randint(1, 8) * 16 + 8, randint(1, 5) * 16 + 8)
 }
+let tempsPoder = 0
 let GhostSprite: Sprite = null
 let SuperMenjar: Sprite = null
 let FoodSprite: Sprite = null
-let novaPosicioPacManY = 0
-let novaPosicioPacManX = 0
+let newLocPacManY = 0
+let newLocPacManX = 0
 let movY = 0
 let movX = 0
-let novaPosicioFantasmaY = 0
-let novaPosicioFantasmaX = 0
+let newLocFantasmaY = 0
+let newLocFantasmaX = 0
+let modeSuperSayanBlue = false
 let diferenciaY = 0
 let diferenciaX = 0
 let movY2 = 0
 let movX2 = 0
 let PacManSprite: Sprite = null
-let tempsPoder = 0
 let tempsActualitzacioFantasma = 0
-let modeSuperSayanBlue = false
-modeSuperSayanBlue = false
 tempsActualitzacioFantasma = 300
 let tempsActualitzacio = 200
-tempsPoder = 0
 tiles.setCurrentTilemap(tilemap`nivel1`)
 CreaPacMan()
 CreaEnemig()
@@ -205,7 +198,7 @@ game.onUpdateInterval(tempsActualitzacio, function () {
         tempsPoder += -1
         if (tempsPoder <= 0) {
             modeSuperSayanBlue = false
-            tempsActualitzacioFantasma = 300
+            tempsActualitzacioFantasma = 200
             animation.runImageAnimation(
             GhostSprite,
             assets.animation`FantasmaAnim`,
@@ -215,6 +208,8 @@ game.onUpdateInterval(tempsActualitzacio, function () {
             music.powerDown.play()
         }
     }
+})
+game.onUpdateInterval(tempsActualitzacio, function () {
     mourePacMan(PacManSprite)
 })
 game.onUpdateInterval(tempsActualitzacioFantasma, function () {
